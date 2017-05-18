@@ -1,4 +1,4 @@
-#goim
+# goim
 goim is an instant messaging server writen by golang.
 
 ## Features
@@ -8,7 +8,7 @@ goim is an instant messaging server writen by golang.
 ## Getting Started
 ### Start goim server
 ```
-go run server.go
+go run start.go
 ```
 ### Create a user client
 ```
