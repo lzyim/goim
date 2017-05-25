@@ -2,7 +2,7 @@ package client
 
 import (
 	"bufio"
-	"goim/message"
+	"github.com/soloslee/goim/message"
 	"log"
 	"net"
 )

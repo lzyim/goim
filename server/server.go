@@ -4,9 +4,9 @@ import (
 	"bytes"
 	"fmt"
 	"github.com/satori/go.uuid"
-	"goim/client"
-	"goim/config"
-	"goim/message"
+	"github.com/soloslee/goim/client"
+	"github.com/soloslee/goim/config"
+	"github.com/soloslee/goim/message"
 	"log"
 	"net"
 )
@@ -20,6 +20,7 @@ type Server struct {
 	message     chan *message.Message
 }
 
+// Start start a goim server instance
 func Start(config *config.Config) {
 	log.Println("Starting goim")
 	server := &Server{
@@ -101,6 +102,7 @@ func (server *Server) startTcp() {
 	}
 }
 
+// Stop stop a goim server instance
 func (server *Server) Stop() {
 	server.listener.Close()
 	close(server.client)

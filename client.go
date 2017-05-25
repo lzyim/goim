@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"fmt"
-	"goim/message"
+	"github.com/soloslee/goim/message"
 	"net"
 )
 

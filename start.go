@@ -1,8 +1,8 @@
 package main
 
 import (
-	"goim/config"
-	"goim/server"
+	"github.com/soloslee/goim/config"
+	"github.com/soloslee/goim/server"
 )
 
 func main() {
