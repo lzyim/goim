@@ -2,27 +2,28 @@ package client
 
 import (
 	"bufio"
+	"github.com/satori/go.uuid"
 	"github.com/soloslee/goim/message"
 	"log"
 	"net"
 )
 
-type ClientMap map[string]*Client
+type ClientMap map[[16]byte]*Client
 
 type Client struct {
-	Uuid   string
+	Uuid   uuid.UUID
 	conn   net.Conn
 	To     chan *message.Message
-	recive chan string
+	recive chan []byte
 	Quit   chan *Client
 	reader *bufio.Reader
 	writer *bufio.Writer
 }
 
-func New(uuid string, conn net.Conn) *Client {
+func New(uuid uuid.UUID, conn net.Conn) *Client {
 	reader := bufio.NewReader(conn)
 	writer := bufio.NewWriter(conn)
-	client := &Client{uuid, conn, make(chan *message.Message), make(chan string), make(chan *Client), reader, writer}
+	client := &Client{uuid, conn, make(chan *message.Message), make(chan []byte), make(chan *Client), reader, writer}
 	client.listen()
 	return client
 }
@@ -43,7 +44,7 @@ func (client *Client) read() {
 
 func (client *Client) write() {
 	for res := range client.recive {
-		if _, err := client.writer.WriteString(res + "\n"); err != nil {
+		if _, err := client.writer.Write(append(res, []byte("\n")...)); err != nil {
 			return
 		}
 		if err := client.writer.Flush(); err != nil {
@@ -64,6 +65,6 @@ func (client *Client) Close() {
 	client.conn.Close()
 }
 
-func (client *Client) Recive(msg string) {
+func (client *Client) Recive(msg []byte) {
 	client.recive <- msg
 }

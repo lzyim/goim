@@ -2,12 +2,13 @@ package message
 
 import (
 	"encoding/json"
+	"github.com/satori/go.uuid"
 )
 
 type Message struct {
-	Fuuid string
-	Tuuid string
-	Data  string
+	Fuuid uuid.UUID
+	Tuuid uuid.UUID
+	Data  []byte
 }
 
 func (msg *Message) Unmarshal(data []byte, v *Message) error {

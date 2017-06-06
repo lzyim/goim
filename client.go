@@ -3,15 +3,18 @@ package main
 import (
 	"bufio"
 	"fmt"
+	"github.com/satori/go.uuid"
 	"github.com/soloslee/goim/message"
 	"net"
 )
 
 func getData(conn *net.Conn) {
 	for {
-		var uuid, data string
+		var uuidStr string
+		var data []byte
 		fmt.Print("Enter your friend's uuid: ")
-		fmt.Scanln(&uuid)
+		fmt.Scanln(&uuidStr)
+		uuid, _ := uuid.FromString(uuidStr)
 		fmt.Print("Enter a message: ")
 		fmt.Scanln(&data)
 		msg := &message.Message{Tuuid: uuid, Data: data}

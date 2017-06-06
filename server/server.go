@@ -71,12 +71,12 @@ func (server *Server) handleMsg(msg *message.Message) {
 	cli := server.clientTable[msg.Tuuid]
 	if cli != nil {
 		var buffer bytes.Buffer
-		buffer.WriteString("\nUser ")
-		buffer.WriteString(msg.Fuuid)
-		buffer.WriteString(" send a message to you: ")
-		buffer.WriteString(msg.Data)
-		buffer.WriteString("\nEnter your friend's uuid: ")
-		cli.Recive(buffer.String())
+		buffer.Write([]byte("\nUser "))
+		buffer.Write([]byte(msg.Fuuid.String()))
+		buffer.Write([]byte(" send a message to you: "))
+		buffer.Write(msg.Data)
+		buffer.Write([]byte("\nEnter your friend's uuid: "))
+		cli.Recive(buffer.Bytes())
 	}
 }
 
@@ -86,8 +86,7 @@ func (server *Server) handleQuit(client *client.Client) {
 }
 
 func (server *Server) startTcp() {
-	addr := fmt.Sprintf("127.0.0.1:%d", server.port)
-	server.listener, _ = net.Listen("tcp", addr)
+	server.listener, _ = net.Listen("tcp", fmt.Sprintf(":%d", server.port))
 	log.Printf("listen on port %d", server.port)
 	for {
 		conn, err := server.listener.Accept()
@@ -95,10 +94,10 @@ func (server *Server) startTcp() {
 			log.Fatalln(err)
 			return
 		}
-		cli := client.New(uuid.NewV4().String(), conn)
+		cli := client.New(uuid.NewV4(), conn)
 		server.clientTable[cli.Uuid] = cli
 		server.client <- cli
-		cli.Recive("\nYour uuid is " + cli.Uuid)
+		cli.Recive(append([]byte("\nYour uuid is "), []byte(cli.Uuid.String())...))
 	}
 }
 
