@@ -11,8 +11,8 @@ type Message struct {
 	Data  []byte
 }
 
-func (msg *Message) Unmarshal(data []byte, v *Message) error {
-	return json.Unmarshal(data, v)
+func (msg *Message) Unmarshal(data []byte) error {
+	return json.Unmarshal(data, msg)
 }
 
 func (msg *Message) Marshal() ([]byte, error) {

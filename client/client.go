@@ -32,7 +32,7 @@ func (client *Client) read() {
 	for {
 		if line, _, err := client.reader.ReadLine(); err == nil {
 			msg := &message.Message{}
-			if err := msg.Unmarshal(line, msg); err == nil {
+			if err := msg.Unmarshal(line); err == nil {
 				client.To <- &message.Message{Fuuid: client.Uuid, Tuuid: msg.Tuuid, Data: msg.Data}
 			}
 		} else {

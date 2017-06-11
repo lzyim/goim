@@ -71,11 +71,10 @@ func (server *Server) handleMsg(msg *message.Message) {
 	cli := server.clientTable[msg.Tuuid]
 	if cli != nil {
 		var buffer bytes.Buffer
-		buffer.Write([]byte("\nUser "))
+		buffer.Write([]byte("User "))
 		buffer.Write([]byte(msg.Fuuid.String()))
 		buffer.Write([]byte(" send a message to you: "))
 		buffer.Write(msg.Data)
-		buffer.Write([]byte("\nEnter your friend's uuid: "))
 		cli.Recive(buffer.Bytes())
 	}
 }
@@ -97,7 +96,7 @@ func (server *Server) startTcp() {
 		cli := client.New(uuid.NewV4(), conn)
 		server.clientTable[cli.Uuid] = cli
 		server.client <- cli
-		cli.Recive(append([]byte("\nYour uuid is "), []byte(cli.Uuid.String())...))
+		cli.Recive([]byte(cli.Uuid.String()))
 	}
 }
 
